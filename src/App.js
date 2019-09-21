@@ -12,12 +12,12 @@ class App extends Component {
     super(props);
     // App gets access to history object from React Router
     this.auth = new Auth(this.props.history)
-  } 
+  }  
 
   render() {
     return (
       <>
-        <NavComponent />
+        <NavComponent auth={this.auth}/>
         <div className='body'>
           <Route 
             path='/' 

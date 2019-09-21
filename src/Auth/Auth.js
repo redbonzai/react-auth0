@@ -23,7 +23,7 @@ export default class Auth {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);                
             } else if (err) {                
-                console.log(`Error: ${err.error} `, err)
+                console.log(`Authentication Error: ${err.error} `, err)
             }
 
             this.history.push('/');
@@ -42,6 +42,19 @@ export default class Auth {
     isUserAuthenticated() {
         const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
         return new Date().getTime() < expiresAt;
+    }
+
+    logout = () => {
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('expires_at')
+        this.auth0.logout({
+            clientID: process.env.REACT_APP_AUTH0_CLIENTID,
+            returnTo: process.env.REACT_APP_URL
+        });
+
+        
+        // this.history.push('/');
     }
     
 }
