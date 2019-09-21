@@ -4,6 +4,7 @@ import HomeComponent from './components/HomeComponent';
 import ProfileComponent from './components/ProfileComponent';
 import NavComponent from './components/NavComponent';
 import Auth from './Auth/Auth';
+import CallBackComponent from './components/CallBackComponent';
 
 class App extends Component {
 
@@ -22,6 +23,11 @@ class App extends Component {
             path='/' 
             exact 
             render={props => <HomeComponent auth={this.auth} {...props} />}
+          />
+          <Route 
+            path='/callback' 
+            exact 
+            render={props => <CallBackComponent auth={this.auth} {...props} />}
           />
           <Route path='/profile' component={ProfileComponent} />
         </div>

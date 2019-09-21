@@ -18,4 +18,24 @@ export default class Auth {
         this.auth0.authorize();
     }
 
+    handleAuthentication = () => {
+        this.auth0.parseHash((err, authResult) => {
+            if (authResult && authResult.accessToken && authResult.idToken) {
+                this.setSession(authResult);                
+            } else if (err) {                
+                console.log(`Error: ${err.error} `, err)
+            }
+
+            this.history.push('/');
+        })
+    }
+
+    setSession = authResult => {
+        // set the time that the access token will expire
+        const expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime())
+
+        localStorage.setItem('access_token', authResult.accessToken)
+        localStorage.setItem('id_token', authResult.idToken)
+        localStorage.setItem('expires_at', expiresAt)
+    }
 }
