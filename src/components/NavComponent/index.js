@@ -11,7 +11,7 @@ class NavComponent extends Component {
                         <Link to='/'>Home</Link>
                     </li>
                     <li>
-                        <Link to='/profile'>Profile</Link>
+                        {isUserAuthenticated() ? <Link to='/profile'>Profile</Link> : ''}                        
                     </li>
                     <li>
                         <button onClick={ isUserAuthenticated() ? logout : login }>
