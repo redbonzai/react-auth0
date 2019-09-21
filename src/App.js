@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route , Redirect } from 'react-router-dom';
 import HomeComponent from './components/HomeComponent';
 import ProfileComponent from './components/ProfileComponent';
 import NavComponent from './components/NavComponent';
@@ -29,7 +29,14 @@ class App extends Component {
             exact 
             render={props => <CallBackComponent auth={this.auth} {...props} />}
           />
-          <Route path='/profile' component={ProfileComponent} />
+          <Route 
+            path='/profile' 
+            render={props => 
+              this.auth.isUserAuthenticated() 
+                ? <ProfileComponent auth={this.auth} {...props} /> 
+                : <Redirect to='/' />
+            } 
+          />
         </div>
       </>
     );
