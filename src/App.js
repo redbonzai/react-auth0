@@ -5,6 +5,8 @@ import ProfileComponent from './components/ProfileComponent';
 import NavComponent from './components/NavComponent';
 import Auth from './Auth/Auth';
 import CallBackComponent from './components/CallBackComponent';
+import PublicComponent from './components/PublicComponent';
+import PrivateComponent from './components/PrivateComponent';
 
 class App extends Component {
 
@@ -35,6 +37,15 @@ class App extends Component {
               this.auth.isUserAuthenticated() 
                 ? <ProfileComponent auth={this.auth} {...props} /> 
                 : <Redirect to='/' />
+            } 
+          />
+          <Route path='/public' component={PublicComponent}/>
+          <Route 
+            path='/private' 
+            render={props => 
+              this.auth.isUserAuthenticated() 
+                ? ( <PrivateComponent auth={this.auth} {...props} /> )
+                : ( this.auth.login() )
             } 
           />
         </div>
