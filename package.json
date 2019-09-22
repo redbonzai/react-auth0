@@ -5,6 +5,7 @@
   "dependencies": {
     "auth0-js": "^9.8.0",
     "auth0-lock": "^11.10.0",
+    "esm": "^3.2.25",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "express-jwt-authz": "^1.0.0",
@@ -16,11 +17,14 @@
     "react-scripts": "3.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "run-p start:client start:server",
+    "start:client": "react-scripts start",
+    "start:server": "nodemon server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -37,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "dotenv": "^8.1.0"
+    "dotenv": "^8.1.0",
+    "nodemon": "^1.19.2"
   }
 }
