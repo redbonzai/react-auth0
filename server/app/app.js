@@ -41,7 +41,7 @@ app.get('/private', checkJwt, (req, res) => {
     })
 })
 
-app.get('/courses', checkJwt, checkScope(['read:courses']), (req, res) => {
+app.get('/course', checkJwt, checkScope(['read:courses']), (req, res) => {
     /** 
      * in the real world: this method would read the subscriber ID from the access token, and use it to query
      * the database for author's courses
