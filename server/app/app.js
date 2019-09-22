@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
+import checkScope from 'express-jwt-authz'
 
 const app = express();
 
@@ -37,6 +38,19 @@ app.get('/public', (req, res) => {
 app.get('/private', checkJwt, (req, res) => {
     res.json({
         message: 'Hello from a Private API'
+    })
+})
+
+app.get('/courses', checkJwt, checkScope(['read:courses']), (req, res) => {
+    /** 
+     * in the real world: this method would read the subscriber ID from the access token, and use it to query
+     * the database for author's courses
+     */
+    res.json({
+        courses: [
+            { id: 1, title: "Building Apps with React and Redux" },
+            { id: 2, title: "Creating Reusable React Components" }
+          ]
     })
 })
 
