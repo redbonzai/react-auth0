@@ -2,6 +2,7 @@ import express from 'express';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import checkScope from 'express-jwt-authz'
+import { checkRole } from '../middleware/checkRole'
 
 const app = express();
 
@@ -38,6 +39,12 @@ app.get('/public', (req, res) => {
 app.get('/private', checkJwt, (req, res) => {
     res.json({
         message: 'Hello from a Private API'
+    })
+})
+
+app.get('/admin', checkJwt, checkRole('admin'), (req, res) => {
+    res.json({
+        message: 'Hello from an admin API'
     })
 })
 

@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js'
 
+const REDIRECT_ON_LOGIN = 'redirect_on_login';
 export default class Auth {
     
     constructor(history) {
@@ -19,18 +20,28 @@ export default class Auth {
     }
 
     login = () => {
+        localStorage.setItem(
+            REDIRECT_ON_LOGIN, 
+            JSON.stringify(this.history.location)
+        )
         this.auth0.authorize();
     }
 
     handleAuthentication = () => {
         this.auth0.parseHash((err, authResult) => {
-            if (authResult && authResult.accessToken && authResult.idToken) {
-                this.setSession(authResult);                
+            if (authResult && authResult.accessToken && authResult.idToken) {                
+                this.setSession(authResult);
+                const redirectLocation = localStorage.getItem (REDIRECT_ON_LOGIN) === null
+                    ? '/'
+                    : JSON.parse(localStorage.getItem(REDIRECT_ON_LOGIN ))
+
+                this.history.push(redirectLocation)              
             } else if (err) {                
                 console.log(`Authentication Error: ${err.error} `, err)
+                this.history.push('/');
             }
-
-            this.history.push('/');
+            
+            localStorage.removeItem(REDIRECT_ON_LOGIN)
         })
     }
 

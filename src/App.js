@@ -40,7 +40,7 @@ class App extends Component {
                 : <Redirect to='/' />
             } 
           />
-          <Route path='/public' component={PublicComponent}/>
+          <Route path='/public' component={PublicComponent} />
           <Route 
             path='/private' 
             render={props => 
