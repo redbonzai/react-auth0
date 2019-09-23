@@ -1,12 +1,12 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
-//import AuthContext from "./AuthContext";
+import AuthContext from "../../Auth/AuthContext";
 
-export default function PrivateRoute({ component: Component, auth, scopes, ...rest }) {
+export default function PrivateRoute({ component: Component, scopes, ...rest }) {
   return (
-    //<AuthContext.Consumer>
-      //{auth => (
+    <AuthContext.Consumer>
+      {auth => (
         <Route
           {...rest}
           render={props => {
@@ -27,14 +27,13 @@ export default function PrivateRoute({ component: Component, auth, scopes, ...re
             return <Component auth={auth} {...props} />;
           }}
         />
-      //)}
-    //</AuthContext.Consumer>
+      )}
+    </AuthContext.Consumer>
   );
 }
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   scopes: PropTypes.array
 };
 
