@@ -7,6 +7,7 @@ import Auth from './Auth/Auth';
 import CallBackComponent from './components/CallBackComponent';
 import PublicComponent from './components/PublicComponent';
 import PrivateComponent from './components/PrivateComponent';
+import CoursesComponent from './components/CoursesComponent';
 
 class App extends Component {
 
@@ -39,12 +40,20 @@ class App extends Component {
                 : <Redirect to='/' />
             } 
           />
-          <Route path='/public' component={PublicComponent}/>
+          <Route path='/public' component={PublicComponent} />
           <Route 
             path='/private' 
             render={props => 
               this.auth.isUserAuthenticated() 
                 ? ( <PrivateComponent auth={this.auth} {...props} /> )
+                : ( this.auth.login() )
+            } 
+          />
+          <Route 
+            path='/courses' 
+            render={props => 
+              this.auth.isUserAuthenticated() && this.auth.userHasScopes(['read:courses']) 
+                ? ( <CoursesComponent auth={this.auth} {...props} /> )
                 : ( this.auth.login() )
             } 
           />
