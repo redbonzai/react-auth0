@@ -17,12 +17,20 @@ class App extends Component {
     super(props);
     this.state = {
       // App gets access to history object from React Router
-      auth: new Auth(this.props.history)
+      auth: new Auth(this.props.history),
+      tokenRenewalComplete: false
     }
-  }  
+  }
+  
+  componentDidMount() {
+    this.state.auth.renewToken(() => this.setState({ tokenRenewalComplete: true }))
+  }
 
   render() {
     const { auth } = this.state
+
+    // Show loading message until the token renewal check is completed
+    if (!this.state.tokenRenewalComplete) return 'Loading ...';
     return (
       <AuthContext.Provider value={auth}>
         <>
