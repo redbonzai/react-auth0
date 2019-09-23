@@ -8,6 +8,7 @@ import CallBackComponent from './components/CallBackComponent';
 import PublicComponent from './components/PublicComponent';
 import PrivateComponent from './components/PrivateComponent';
 import CoursesComponent from './components/CoursesComponent';
+import PrivateRoute from './components/PrivateRoute';
 
 class App extends Component {
 
@@ -32,30 +33,14 @@ class App extends Component {
             exact 
             render={props => <CallBackComponent auth={this.auth} {...props} />}
           />
-          <Route 
-            path='/profile' 
-            render={props => 
-              this.auth.isUserAuthenticated() 
-                ? <ProfileComponent auth={this.auth} {...props} /> 
-                : <Redirect to='/' />
-            } 
-          />
           <Route path='/public' component={PublicComponent} />
-          <Route 
-            path='/private' 
-            render={props => 
-              this.auth.isUserAuthenticated() 
-                ? ( <PrivateComponent auth={this.auth} {...props} /> )
-                : ( this.auth.login() )
-            } 
-          />
-          <Route 
+          <PrivateRoute path='/profile' component={ProfileComponent} auth={this.auth} />          
+          <PrivateRoute path='/private' component={PrivateComponent} auth={this.auth} />
+          <PrivateRoute 
             path='/courses' 
-            render={props => 
-              this.auth.isUserAuthenticated() && this.auth.userHasScopes(['read:courses']) 
-                ? ( <CoursesComponent auth={this.auth} {...props} /> )
-                : ( this.auth.login() )
-            } 
+            component={CoursesComponent}
+            auth={this.auth}
+            scopes={['read:courses']} 
           />
         </div>
       </>
